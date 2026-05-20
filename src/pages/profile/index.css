@@ -1,0 +1,128 @@
+.profile-page {
+  padding-bottom: 146rpx;
+}
+
+.profile-card {
+  display: flex;
+  align-items: center;
+  padding: 28rpx;
+  margin: 22rpx 0 28rpx;
+  background: rgba(255, 255, 255, 0.82);
+}
+
+.profile-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 112rpx;
+  height: 112rpx;
+  margin-right: 24rpx;
+  font-size: 70rpx;
+  background: linear-gradient(180deg, #fff0c9 0%, #d7f3e7 100%);
+  border-radius: 50%;
+}
+
+.profile-info {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+
+.profile-name {
+  font-size: 34rpx;
+  font-weight: 900;
+  color: #3d2a20;
+}
+
+.profile-slogan {
+  margin-top: 10rpx;
+  font-size: 24rpx;
+  color: #8b7563;
+}
+
+.package-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 28rpx;
+  margin-bottom: 24rpx;
+  background: linear-gradient(135deg, #fff8d9 0%, #fff 52%, #ffeaf1 100%);
+}
+
+.package-title {
+  display: block;
+  font-size: 30rpx;
+  font-weight: 900;
+  color: #86600d;
+}
+
+.package-desc {
+  display: block;
+  margin-top: 8rpx;
+  font-size: 23rpx;
+  color: #b48b41;
+}
+
+.package-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 126rpx;
+  height: 58rpx;
+  font-size: 24rpx;
+  font-weight: 900;
+  color: #fff;
+  background: linear-gradient(135deg, #ff8bb3 0%, #ff477f 100%);
+  border-radius: 29rpx;
+}
+
+.menu-list {
+  padding: 4rpx 24rpx;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 94rpx;
+  border-bottom: 2rpx solid rgba(232, 218, 202, 0.58);
+}
+
+.menu-item:last-child {
+  border-bottom: 0;
+}
+
+.menu-left,
+.menu-right {
+  display: flex;
+  align-items: center;
+}
+
+.menu-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48rpx;
+  height: 48rpx;
+  margin-right: 18rpx;
+  font-size: 26rpx;
+  background: #f4fbf7;
+  border-radius: 14rpx;
+}
+
+.menu-title {
+  font-size: 27rpx;
+  font-weight: 800;
+  color: #52392d;
+}
+
+.menu-extra {
+  margin-right: 10rpx;
+  font-size: 22rpx;
+  color: #b49c83;
+}
+
+.menu-arrow {
+  font-size: 38rpx;
+  color: #b9a58f;
+}

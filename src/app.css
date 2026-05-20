@@ -1,0 +1,112 @@
+page {
+  min-height: 100%;
+  color: #40281c;
+  background: #fff8e8;
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Helvetica Neue", Arial, sans-serif;
+}
+
+view,
+text,
+input,
+button {
+  box-sizing: border-box;
+}
+
+button {
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  line-height: normal;
+  color: inherit;
+  background: transparent;
+  border: 0;
+}
+
+button::after {
+  border: 0;
+}
+
+.page-shell {
+  min-height: 100vh;
+  padding: 32rpx 28rpx 144rpx;
+  background:
+    radial-gradient(circle at 18% 10%, rgba(255, 218, 101, 0.28), transparent 24%),
+    radial-gradient(circle at 92% 4%, rgba(255, 128, 173, 0.16), transparent 24%),
+    linear-gradient(180deg, #fff4d4 0%, #fffaf3 42%, #fff7ee 100%);
+}
+
+.page-shell.cool {
+  background:
+    radial-gradient(circle at 12% 8%, rgba(158, 221, 210, 0.32), transparent 24%),
+    radial-gradient(circle at 95% 10%, rgba(255, 216, 107, 0.18), transparent 22%),
+    linear-gradient(180deg, #eaf8ef 0%, #fffaf1 48%, #fff7ed 100%);
+}
+
+.page-shell.blush {
+  background:
+    radial-gradient(circle at 15% 10%, rgba(255, 177, 205, 0.28), transparent 26%),
+    radial-gradient(circle at 88% 12%, rgba(255, 222, 102, 0.22), transparent 22%),
+    linear-gradient(180deg, #fff0f6 0%, #fff9ee 52%, #fff7f0 100%);
+}
+
+.safe-top {
+  height: 36rpx;
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.88);
+  border: 2rpx solid rgba(255, 225, 177, 0.64);
+  border-radius: 32rpx;
+  box-shadow: 0 18rpx 48rpx rgba(155, 102, 32, 0.11);
+}
+
+.primary-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 92rpx;
+  font-size: 34rpx;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 2rpx;
+  background: linear-gradient(135deg, #ff7aa5 0%, #ff3f7c 100%);
+  border-radius: 46rpx;
+  box-shadow: 0 16rpx 28rpx rgba(255, 74, 128, 0.28);
+}
+
+.secondary-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 76rpx;
+  font-size: 28rpx;
+  font-weight: 700;
+  color: #7a5b28;
+  background: #fff;
+  border: 2rpx solid #f3dfbf;
+  border-radius: 38rpx;
+  box-shadow: 0 10rpx 24rpx rgba(97, 66, 23, 0.08);
+}
+
+.muted {
+  color: #a38d78;
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 34rpx 0 18rpx;
+  font-size: 28rpx;
+  font-weight: 800;
+}
+
+.section-more {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+  font-size: 24rpx;
+  font-weight: 600;
+  color: #9b7f64;
+}
