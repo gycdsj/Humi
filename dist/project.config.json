@@ -1,0 +1,14 @@
+{
+  "miniprogramRoot": "./",
+  "projectname": "baby-nian-nian",
+  "description": "宝宝念念微信小程序 MVP",
+  "appid": "touristappid",
+  "setting": {
+    "urlCheck": false,
+    "es6": true,
+    "enhance": true,
+    "postcss": true,
+    "minified": true
+  },
+  "compileType": "miniprogram"
+}

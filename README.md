@@ -23,10 +23,11 @@
 
 ```bash
 npm install
+npm run build:weapp
 npm run dev:weapp
 ```
 
-使用微信开发者工具打开项目根目录，`project.config.json` 已配置 `dist/` 为小程序产物目录。
+使用微信开发者工具打开项目根目录，`project.config.json` 已配置 `dist/` 为小程序产物目录。仓库已包含一份最新的 `dist/app.json` 构建产物，直接导入项目也可以打开；如果修改了源码，请先执行 `npm run build:weapp` 或 `npm run dev:weapp` 重新生成 `dist/`。
 
 ## 说明
 
