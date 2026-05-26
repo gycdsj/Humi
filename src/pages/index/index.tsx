@@ -1,8 +1,9 @@
 import { useEffect, useMemo, useState } from 'react'
-import { View, Text, Input } from '@tarojs/components'
+import { Image, View, Text, Input } from '@tarojs/components'
 import Taro from '@tarojs/taro'
 import BottomNav from '@/components/BottomNav'
 import QuotaModal from '@/components/QuotaModal'
+import { getTopicAssetByInput, imageAssets } from '@/utils/assets'
 import {
   AppState,
   GenerateMode,
@@ -10,8 +11,7 @@ import {
   getFavoriteVersions,
   getTopicByVersion,
   loadState,
-  modeLabel,
-  topicIcon
+  modeLabel
 } from '@/utils/store'
 import './index.css'
 
@@ -53,16 +53,10 @@ export default function IndexPage() {
         <View className='hero-copy'>
           <View className='brand-row'>
             <Text className='brand-title'>宝宝念念</Text>
-            <Text className='brand-spark'>✤</Text>
           </View>
           <Text className='brand-subtitle'>把生活变成宝宝爱听的顺口溜和儿歌</Text>
-          <View className='music-notes'>♪ ♫ ✨ ♬</View>
         </View>
-        <View className='baby-illust'>
-          <Text className='baby-face'>👶</Text>
-          <Text className='baby-mic'>🎤</Text>
-          <Text className='baby-bunny'>🐰</Text>
-        </View>
+        <Image className='home-hero-image' src={imageAssets.homeHero} mode='aspectFit' />
       </View>
 
       <View className='input-card card'>
@@ -94,9 +88,7 @@ export default function IndexPage() {
         </View>
       </View>
 
-      <View className='primary-btn generate-btn' onClick={handleGenerate}>
-        生成 ✨
-      </View>
+      <View className='primary-btn generate-btn' onClick={handleGenerate}>生成</View>
 
       <View className='section-title'>
         <Text>最近满意作品</Text>
@@ -118,7 +110,7 @@ export default function IndexPage() {
                 Taro.navigateTo({ url: `/pages/result/index?topicId=${topic.id}&versionId=${version.id}` })
               }
             >
-              <View className='favorite-icon'>{topicIcon(topic.input)}</View>
+              <Image className='favorite-icon' src={getTopicAssetByInput(topic.input)} mode='aspectFit' />
               <Text className='favorite-title'>{topic.input}</Text>
               <Text className='favorite-meta'>{modeLabel(topic.mode)} · {version.content.split('\n').length}句</Text>
             </View>

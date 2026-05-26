@@ -18,11 +18,13 @@
 - 我的页面：用户卡片、剩余次数、功能菜单
 - 购买页面：10 次/50 次套餐、模拟支付、支付成功态
 - 次数逻辑：顺口溜消耗 1 次，儿歌消耗 5 次，本地存储模拟扣减与到账
+- 图片资源化：页面图标使用 `src/assets/images` 下的透明 PNG，不再依赖 emoji 字符渲染
 
 ## 本地运行
 
 ```bash
 npm install
+npm run generate:assets
 npm run build:weapp
 npm run dev:weapp
 ```
@@ -32,4 +34,18 @@ npm run dev:weapp
 ## 说明
 
 当前版本用本地存储模拟 AI 生成、套餐支付和历史数据。后续接入 NestJS 后端时，可将 `src/utils/store.ts` 中的生成、扣次、订单逻辑替换为接口调用，并接入 OpenAI 与微信支付。
+
+## UI 资源切图
+
+如果需要从设计拼图重新生成资源，请把原图保存到本地后执行：
+
+```bash
+npm run crop:assets -- ./path/to/ui-assets-sheet.png
+```
+
+脚本会自动识别拼图中的 36 个白色小图框，裁剪后把边缘白底转为透明背景，并覆盖输出到 `src/assets/images`。如果只是需要开发占位资源，可执行：
+
+```bash
+npm run generate:assets
+```
 

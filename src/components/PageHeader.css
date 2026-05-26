@@ -19,9 +19,11 @@
   width: 48rpx;
   height: 48rpx;
   margin-right: 12rpx;
-  font-size: 48rpx;
-  font-weight: 300;
-  color: #5f4a3b;
+}
+
+.page-header__back-icon {
+  width: 42rpx;
+  height: 42rpx;
 }
 
 .page-header__title {
@@ -36,13 +38,7 @@
   color: #a58d72;
 }
 
-.page-header__dot,
-.page-header__circle {
-  font-size: 28rpx;
-  font-weight: 900;
-  color: #463328;
-}
-
-.page-header__circle {
-  margin-left: 20rpx;
+.page-header__more {
+  width: 50rpx;
+  height: 50rpx;
 }

@@ -27,11 +27,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 46rpx;
-  height: 46rpx;
-  font-size: 30rpx;
-  font-weight: 800;
-  border-radius: 18rpx;
+  width: 48rpx;
+  height: 48rpx;
 }
 
 .bottom-nav__label {
@@ -44,7 +41,3 @@
   color: #d48700;
 }
 
-.bottom-nav__item.is-active .bottom-nav__icon {
-  color: #fff;
-  background: linear-gradient(135deg, #ffc33c 0%, #ff9e12 100%);
-}

@@ -51,11 +51,6 @@
   color: #3e281b;
 }
 
-.brand-spark {
-  font-size: 34rpx;
-  color: #ffc12c;
-}
-
 .brand-subtitle {
   display: block;
   margin-top: 12rpx;
@@ -65,43 +60,13 @@
   color: #9a7d5e;
 }
 
-.music-notes {
-  margin-top: 46rpx;
-  font-size: 36rpx;
-  color: #ffc24c;
-  word-spacing: 18rpx;
-}
-
-.baby-illust {
+.home-hero-image {
   position: absolute;
-  right: 22rpx;
-  bottom: 12rpx;
+  right: 16rpx;
+  bottom: 0;
   z-index: 1;
   width: 292rpx;
-  height: 232rpx;
-}
-
-.baby-face {
-  position: absolute;
-  right: 68rpx;
-  bottom: 22rpx;
-  font-size: 150rpx;
-  filter: drop-shadow(0 10rpx 12rpx rgba(100, 60, 30, 0.12));
-}
-
-.baby-mic {
-  position: absolute;
-  bottom: 18rpx;
-  left: 34rpx;
-  font-size: 70rpx;
-  transform: rotate(-18deg);
-}
-
-.baby-bunny {
-  position: absolute;
-  right: 14rpx;
-  bottom: 0;
-  font-size: 68rpx;
+  height: 246rpx;
 }
 
 .input-card {
@@ -182,12 +147,9 @@
 }
 
 .favorite-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
   height: 92rpx;
+  width: 100%;
   margin-bottom: 8rpx;
-  font-size: 64rpx;
   background: linear-gradient(180deg, #dff8ff 0%, #fff1c8 100%);
   border-radius: 22rpx;
 }

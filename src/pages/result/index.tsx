@@ -1,8 +1,9 @@
 import { useEffect, useMemo, useState } from 'react'
-import { View, Text } from '@tarojs/components'
+import { Image, View, Text } from '@tarojs/components'
 import Taro, { useRouter } from '@tarojs/taro'
 import PageHeader from '@/components/PageHeader'
 import QuotaModal from '@/components/QuotaModal'
+import { getTopicAssetByInput, imageAssets } from '@/utils/assets'
 import {
   AppState,
   Version,
@@ -10,8 +11,7 @@ import {
   loadState,
   modeLabel,
   regenerateVersion,
-  setFavoriteVersion,
-  topicIcon
+  setFavoriteVersion
 } from '@/utils/store'
 import './index.css'
 
@@ -71,7 +71,7 @@ export default function ResultPage() {
       <PageHeader />
 
       <View className='topic-head'>
-        <View className='topic-avatar'>{topicIcon(topic.input)}</View>
+        <Image className='topic-avatar' src={getTopicAssetByInput(topic.input)} mode='aspectFit' />
         <View className='topic-main'>
           <View className='topic-title-row'>
             <Text className='topic-title'>{topic.input}</Text>
@@ -85,7 +85,7 @@ export default function ResultPage() {
       </View>
 
       <View className='result-card card'>
-        <Text className='version-badge'>☁ 版本 {currentIndex}/{versions.length} ☁</Text>
+        <Text className='version-badge'>版本 {currentIndex}/{versions.length}</Text>
         <View className='rhyme-content'>
           {lines.map((line) => (
             <Text key={line} className='rhyme-line'>
@@ -93,11 +93,15 @@ export default function ResultPage() {
             </Text>
           ))}
         </View>
-        <View className='card-deco'>{topicIcon(topic.input)}</View>
+        <Image className='card-deco' src={getTopicAssetByInput(topic.input)} mode='aspectFit' />
         {versions.length > 1 && (
           <>
-            <View className='version-arrow version-arrow--left'>‹</View>
-            <View className='version-arrow version-arrow--right'>›</View>
+            <View className='version-arrow version-arrow--left'>
+              <Image className='version-arrow__icon' src={imageAssets.iconBack} mode='aspectFit' />
+            </View>
+            <View className='version-arrow version-arrow--right'>
+              <Image className='version-arrow__icon' src={imageAssets.iconBack} mode='aspectFit' />
+            </View>
           </>
         )}
       </View>
@@ -106,7 +110,7 @@ export default function ResultPage() {
         <View className='song-card card'>
           <View className='song-player'>
             <View className='song-play' onClick={() => setPlaying(!playing)}>
-              {playing ? '❚❚' : '▶'}
+              <View className={`song-play-mark ${playing ? 'is-pause' : 'is-play'}`} />
             </View>
             <View className='song-info'>
               <Text className='song-title'>宝宝小儿歌</Text>
@@ -125,22 +129,26 @@ export default function ResultPage() {
 
       <View className='action-row'>
         <View className='action-item' onClick={regenerate}>
-          <Text className='action-icon'>↻</Text>
+          <Image className='action-icon' src={imageAssets.iconRegenerate} mode='aspectFit' />
           <Text>重新生成</Text>
         </View>
         <View className={`action-item ${current.isFavorite ? 'is-favorite' : ''}`} onClick={toggleFavorite}>
-          <Text className='action-icon'>♥</Text>
+          <Image
+            className='action-icon'
+            src={current.isFavorite ? imageAssets.iconFavoriteActive : imageAssets.iconFavorite}
+            mode='aspectFit'
+          />
           <Text>{current.isFavorite ? '已满意' : '标记满意'}</Text>
         </View>
         <View className='action-item' onClick={() => Taro.navigateTo({ url: `/pages/detail/index?topicId=${topic.id}` })}>
-          <Text className='action-icon'>▤</Text>
+          <Image className='action-icon' src={imageAssets.iconHistory} mode='aspectFit' />
           <Text>查看历史</Text>
         </View>
       </View>
 
       {topic.mode === 'rhyme' && (
         <View className='tip-card'>
-          <Text className='tip-star'>⭐</Text>
+          <Image className='tip-star' src={imageAssets.quotaPackageHero} mode='aspectFit' />
           <View>
             <Text className='tip-title'>小贴士：</Text>
             <Text className='tip-text'>点击“重新生成”会为你换一版新的句子～</Text>

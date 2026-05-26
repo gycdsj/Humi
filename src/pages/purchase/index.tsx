@@ -1,7 +1,8 @@
 import { useEffect, useMemo, useState } from 'react'
-import { View, Text } from '@tarojs/components'
+import { Image, View, Text } from '@tarojs/components'
 import Taro from '@tarojs/taro'
 import PageHeader from '@/components/PageHeader'
+import { imageAssets } from '@/utils/assets'
 import { AppState, PACKAGE_PLANS, buyPackage, loadState } from '@/utils/store'
 import './index.css'
 
@@ -30,8 +31,7 @@ export default function PurchasePage() {
       <View className='page-shell blush paid-page'>
         <View className='safe-top' />
         <View className='paid-hero'>
-          <View className='paid-bear'>🐻</View>
-          <View className='paid-check'>✓</View>
+          <Image className='paid-bear' src={imageAssets.paySuccessHero} mode='aspectFit' />
         </View>
         <Text className='paid-title'>支付成功</Text>
         <Text className='paid-desc'>{selected.name}已为你开通，快去生成更多好听的内容吧！</Text>
@@ -55,7 +55,7 @@ export default function PurchasePage() {
           <Text className='purchase-title'>购买次数</Text>
           <Text className='purchase-subtitle'>选择套餐，解锁更多创作次数</Text>
         </View>
-        <Text className='purchase-banana'>🍌</Text>
+        <Image className='purchase-banana' src={imageAssets.purchaseHero} mode='aspectFit' />
       </View>
 
       <View className='plan-list'>
@@ -74,7 +74,7 @@ export default function PurchasePage() {
             </View>
             <View className='plan-price-wrap'>
               <Text className='plan-price'>¥{plan.price}</Text>
-              <Text className='plan-check'>{selectedId === plan.id ? '✓' : '○'}</Text>
+              {selectedId === plan.id && <Image className='plan-check' src={imageAssets.iconCheck} mode='aspectFit' />}
             </View>
           </View>
         ))}

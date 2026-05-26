@@ -14,7 +14,12 @@ const config = {
   plugins: ['@tarojs/plugin-html'],
   defineConstants: {},
   copy: {
-    patterns: [],
+    patterns: [
+      {
+        from: 'src/assets/images',
+        to: 'dist/assets/images'
+      }
+    ],
     options: {}
   },
   framework: 'react',

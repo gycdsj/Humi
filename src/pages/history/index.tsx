@@ -1,8 +1,9 @@
 import { useEffect, useMemo, useState } from 'react'
-import { View, Text, Input } from '@tarojs/components'
+import { Image, View, Text, Input } from '@tarojs/components'
 import Taro, { useRouter } from '@tarojs/taro'
 import BottomNav from '@/components/BottomNav'
 import PageHeader from '@/components/PageHeader'
+import { getTopicAssetByInput, imageAssets } from '@/utils/assets'
 import {
   AppState,
   Topic,
@@ -10,8 +11,7 @@ import {
   getFavoriteVersions,
   getTopicVersions,
   loadState,
-  modeLabel,
-  topicIcon
+  modeLabel
 } from '@/utils/store'
 import './index.css'
 
@@ -53,14 +53,16 @@ export default function HistoryPage() {
         key={topic.id}
         onClick={() => Taro.navigateTo({ url: `/pages/detail/index?topicId=${topic.id}` })}
       >
-        <View className='history-icon'>{topicIcon(topic.input)}</View>
+        <Image className='history-icon' src={getTopicAssetByInput(topic.input)} mode='aspectFit' />
         <View className='history-main'>
           <Text className='history-title'>{topic.input}</Text>
           <Text className='history-meta'>{modeLabel(topic.mode)} · {versions.length}个版本</Text>
         </View>
         <View className='history-side'>
           <Text className='history-time'>{latest ? formatTime(latest.createdAt) : formatTime(topic.createdAt)}</Text>
-          {versions.some((item) => item.isFavorite) && <Text className='history-heart'>♥</Text>}
+          {versions.some((item) => item.isFavorite) && (
+            <Image className='history-heart' src={imageAssets.iconFavoriteActive} mode='aspectFit' />
+          )}
         </View>
       </View>
     )
@@ -84,7 +86,7 @@ export default function HistoryPage() {
       </View>
 
       <View className='search-card'>
-        <Text className='search-icon'>⌕</Text>
+        <Image className='search-icon' src={imageAssets.iconSearch} mode='aspectFit' />
         <Input
           value={query}
           placeholder='搜索内容'
@@ -108,14 +110,14 @@ export default function HistoryPage() {
                 key={version.id}
                 onClick={() => Taro.navigateTo({ url: `/pages/result/index?topicId=${topic.id}&versionId=${version.id}` })}
               >
-                <View className='history-icon'>{topicIcon(topic.input)}</View>
+                <Image className='history-icon' src={getTopicAssetByInput(topic.input)} mode='aspectFit' />
                 <View className='history-main'>
                   <Text className='history-title'>{topic.input}</Text>
                   <Text className='history-meta'>{version.content.split('\n')[0]}</Text>
                 </View>
                 <View className='history-side'>
                   <Text className='history-time'>{formatTime(version.createdAt)}</Text>
-                  <Text className='history-heart'>♥</Text>
+                  <Image className='history-heart' src={imageAssets.iconFavoriteActive} mode='aspectFit' />
                 </View>
               </View>
             )

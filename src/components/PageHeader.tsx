@@ -1,5 +1,6 @@
-import { View, Text } from '@tarojs/components'
+import { Image, View, Text } from '@tarojs/components'
 import Taro from '@tarojs/taro'
+import { imageAssets } from '@/utils/assets'
 import './PageHeader.css'
 
 export default function PageHeader({
@@ -16,7 +17,7 @@ export default function PageHeader({
       <View className='page-header__left'>
         {showBack && (
           <View className='page-header__back' onClick={() => Taro.navigateBack()}>
-            ‹
+            <Image className='page-header__back-icon' src={imageAssets.iconBack} mode='aspectFit' />
           </View>
         )}
         <View>
@@ -24,8 +25,7 @@ export default function PageHeader({
           {subtitle && <View className='page-header__subtitle'>{subtitle}</View>}
         </View>
       </View>
-      <Text className='page-header__dot'>•••</Text>
-      <Text className='page-header__circle'>○</Text>
+      <Image className='page-header__more' src={imageAssets.iconMore} mode='aspectFit' />
     </View>
   )
 }

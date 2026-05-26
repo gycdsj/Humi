@@ -5,6 +5,8 @@
   "private": true,
   "scripts": {
     "build:weapp": "taro build --type weapp",
+    "crop:assets": "node scripts/crop-assets.mjs",
+    "generate:assets": "node scripts/generate-dev-assets.mjs",
     "dev:weapp": "taro build --type weapp --watch",
     "typecheck": "tsc --noEmit"
   },
@@ -41,6 +43,7 @@
     "@types/react": "^18.3.29",
     "@types/react-dom": "^18.3.7",
     "babel-preset-taro": "^4.2.0",
+    "sharp": "^0.34.5",
     "typescript": "^6.0.3"
   }
 }

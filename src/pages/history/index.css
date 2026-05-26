@@ -41,9 +41,9 @@
 }
 
 .search-icon {
+  width: 34rpx;
+  height: 34rpx;
   margin-right: 14rpx;
-  font-size: 30rpx;
-  color: #c9b79f;
 }
 
 .search-input {
@@ -73,13 +73,9 @@
 }
 
 .history-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
   width: 72rpx;
   height: 72rpx;
   margin-right: 18rpx;
-  font-size: 44rpx;
   background: linear-gradient(180deg, #bff3ff 0%, #fff0b8 100%);
   border-radius: 50%;
 }
@@ -122,9 +118,9 @@
 }
 
 .history-heart {
+  width: 34rpx;
+  height: 34rpx;
   margin-top: 12rpx;
-  font-size: 28rpx;
-  color: #ff437f;
 }
 
 .empty-history {

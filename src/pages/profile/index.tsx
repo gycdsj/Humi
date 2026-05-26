@@ -1,18 +1,19 @@
 import { useEffect, useState } from 'react'
-import { View, Text } from '@tarojs/components'
+import { Image, View, Text } from '@tarojs/components'
 import Taro from '@tarojs/taro'
 import BottomNav from '@/components/BottomNav'
 import PageHeader from '@/components/PageHeader'
+import { imageAssets } from '@/utils/assets'
 import { AppState, loadState } from '@/utils/store'
 import './index.css'
 
 const MENU = [
-  { icon: '🛍', title: '我的套餐', extra: '' },
-  { icon: '📄', title: '使用记录', extra: '' },
-  { icon: '⭐', title: '满意作品', extra: '' },
-  { icon: '💬', title: '意见反馈', extra: '' },
-  { icon: '🧸', title: '关于我们', extra: '' },
-  { icon: '⚙', title: '设置', extra: '' }
+  { icon: imageAssets.menuPackage, title: '我的套餐', extra: '' },
+  { icon: imageAssets.menuUsage, title: '使用记录', extra: '' },
+  { icon: imageAssets.menuFavorite, title: '满意作品', extra: '' },
+  { icon: imageAssets.menuFeedback, title: '意见反馈', extra: '' },
+  { icon: imageAssets.menuAbout, title: '关于我们', extra: '' },
+  { icon: imageAssets.menuSetting, title: '设置', extra: '' }
 ]
 
 export default function ProfilePage() {
@@ -47,10 +48,10 @@ export default function ProfilePage() {
       <PageHeader showBack={false} />
 
       <View className='profile-card card'>
-        <View className='profile-avatar'>{state.user.avatar}</View>
+        <Image className='profile-avatar' src={imageAssets.defaultAvatar} mode='aspectFit' />
         <View className='profile-info'>
           <Text className='profile-name'>{state.user.nickname}</Text>
-          <Text className='profile-slogan'>陪宝宝快乐成长每一天 🌈</Text>
+          <Text className='profile-slogan'>陪宝宝快乐成长每一天</Text>
         </View>
       </View>
 
@@ -68,7 +69,7 @@ export default function ProfilePage() {
         {MENU.map((item) => (
           <View className='menu-item' key={item.title} onClick={() => handleMenu(item.title)}>
             <View className='menu-left'>
-              <Text className='menu-icon'>{item.icon}</Text>
+              <Image className='menu-icon' src={item.icon} mode='aspectFit' />
               <Text className='menu-title'>{item.title}</Text>
             </View>
             <View className='menu-right'>

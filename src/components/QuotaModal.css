@@ -23,15 +23,9 @@
 }
 
 .quota-hero {
-  display: flex;
-  align-items: center;
-  justify-content: center;
   width: 156rpx;
   height: 156rpx;
   margin: 0 auto 22rpx;
-  font-size: 88rpx;
-  background: linear-gradient(180deg, #fff6c7 0%, #fff 100%);
-  border-radius: 50%;
 }
 
 .quota-title {

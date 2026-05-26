@@ -1,7 +1,8 @@
 import { useEffect, useMemo, useState } from 'react'
-import { View, Text } from '@tarojs/components'
+import { Image, View, Text } from '@tarojs/components'
 import Taro, { useRouter } from '@tarojs/taro'
 import PageHeader from '@/components/PageHeader'
+import { getTopicAssetByInput } from '@/utils/assets'
 import {
   AppState,
   deleteVersion,
@@ -9,8 +10,7 @@ import {
   getTopicVersions,
   loadState,
   modeLabel,
-  setFavoriteVersion,
-  topicIcon
+  setFavoriteVersion
 } from '@/utils/store'
 import './index.css'
 
@@ -55,7 +55,7 @@ export default function DetailPage() {
       {topic ? (
         <>
           <View className='detail-topic card'>
-            <View className='detail-topic__icon'>{topicIcon(topic.input)}</View>
+            <Image className='detail-topic__icon' src={getTopicAssetByInput(topic.input)} mode='aspectFit' />
             <View>
               <Text className='detail-topic__title'>{topic.input}</Text>
               <Text className='detail-topic__meta'>{modeLabel(topic.mode)} · {versions.length}个版本</Text>

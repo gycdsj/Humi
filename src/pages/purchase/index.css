@@ -24,8 +24,9 @@
 }
 
 .purchase-banana {
+  width: 110rpx;
+  height: 110rpx;
   margin-right: 38rpx;
-  font-size: 92rpx;
 }
 
 .plan-list {
@@ -103,17 +104,9 @@
 }
 
 .plan-check {
-  display: flex;
-  align-items: center;
-  justify-content: center;
   width: 28rpx;
   height: 28rpx;
   margin-top: 14rpx;
-  font-size: 22rpx;
-  font-weight: 900;
-  color: #fff;
-  background: #ffc13a;
-  border-radius: 50%;
 }
 
 .purchase-notes {
@@ -146,31 +139,9 @@
 }
 
 .paid-bear {
-  display: flex;
-  align-items: center;
-  justify-content: center;
   width: 230rpx;
   height: 230rpx;
   margin: 0 auto;
-  font-size: 132rpx;
-  background: #fff1dd;
-  border-radius: 50%;
-}
-
-.paid-check {
-  position: absolute;
-  right: 10rpx;
-  bottom: 10rpx;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 112rpx;
-  height: 112rpx;
-  font-size: 70rpx;
-  font-weight: 900;
-  color: #fff;
-  background: #55d569;
-  border-radius: 50%;
 }
 
 .paid-title {

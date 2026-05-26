@@ -1,5 +1,6 @@
-import { View, Text } from '@tarojs/components'
+import { Image, View, Text } from '@tarojs/components'
 import Taro from '@tarojs/taro'
+import { imageAssets } from '@/utils/assets'
 import './QuotaModal.css'
 
 export default function QuotaModal({
@@ -17,7 +18,11 @@ export default function QuotaModal({
   return (
     <View className='quota-mask'>
       <View className={`quota-modal ${variant === 'package' ? 'quota-modal--package' : ''}`}>
-        <View className='quota-hero'>{variant === 'package' ? '⭐' : '🐰'}</View>
+        <Image
+          className='quota-hero'
+          src={variant === 'package' ? imageAssets.quotaPackageHero : imageAssets.quotaDailyHero}
+          mode='aspectFit'
+        />
         <Text className='quota-title'>
           {variant === 'package' ? '剩余次数不足' : '今日次数已用完啦'}
         </Text>

@@ -9,13 +9,9 @@
 }
 
 .topic-avatar {
-  display: flex;
-  align-items: center;
-  justify-content: center;
   width: 126rpx;
   height: 126rpx;
   margin-right: 24rpx;
-  font-size: 72rpx;
   background: #fff;
   border: 8rpx solid rgba(255, 255, 255, 0.8);
   border-radius: 50%;
@@ -103,7 +99,8 @@
   position: absolute;
   right: 28rpx;
   bottom: 10rpx;
-  font-size: 82rpx;
+  width: 96rpx;
+  height: 96rpx;
 }
 
 .version-arrow {
@@ -114,11 +111,6 @@
   justify-content: center;
   width: 44rpx;
   height: 44rpx;
-  font-size: 40rpx;
-  font-weight: 800;
-  color: #fff;
-  background: #f9c04e;
-  border-radius: 50%;
   transform: translateY(-50%);
 }
 
@@ -128,6 +120,15 @@
 
 .version-arrow--right {
   right: -1rpx;
+}
+
+.version-arrow__icon {
+  width: 44rpx;
+  height: 44rpx;
+}
+
+.version-arrow--right .version-arrow__icon {
+  transform: rotate(180deg);
 }
 
 .song-card {
@@ -152,6 +153,22 @@
   color: #fff;
   background: linear-gradient(135deg, #ffc14a 0%, #ff7b9f 100%);
   border-radius: 50%;
+}
+
+.song-play-mark.is-play {
+  width: 0;
+  height: 0;
+  margin-left: 6rpx;
+  border-top: 16rpx solid transparent;
+  border-bottom: 16rpx solid transparent;
+  border-left: 24rpx solid #fff;
+}
+
+.song-play-mark.is-pause {
+  width: 28rpx;
+  height: 30rpx;
+  border-right: 8rpx solid #fff;
+  border-left: 8rpx solid #fff;
 }
 
 .song-info {
@@ -202,22 +219,12 @@
 }
 
 .action-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
   width: 56rpx;
   height: 56rpx;
-  font-size: 34rpx;
-  border-radius: 50%;
 }
 
 .action-item.is-favorite {
   color: #ff477f;
-}
-
-.action-item.is-favorite .action-icon {
-  color: #fff;
-  background: #ff477f;
 }
 
 .tip-card {
@@ -230,7 +237,8 @@
 
 .tip-star {
   margin-right: 18rpx;
-  font-size: 34rpx;
+  width: 42rpx;
+  height: 42rpx;
 }
 
 .tip-title {

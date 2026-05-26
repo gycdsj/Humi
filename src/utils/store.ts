@@ -73,23 +73,18 @@ export const PACKAGE_PLANS: PackagePlan[] = [
   { id: 'pack_50', name: '50次套餐', count: 50, price: 19.9, validity: '有效期 90 天', tag: '更划算' }
 ]
 
-const ICONS = ['🚗', '🍌', '🛁', '🐱', '🌙', '🥕', '🧦', '🚪', '🥦', '🐤']
-
 const RHYME_TEMPLATES = [
-  (word: string, icon: string) => `小${word}，轻轻摇\n宝宝看了咯咯笑 ${icon}`,
-  (word: string, icon: string) => `${word}${word}真可爱\n陪着宝宝慢慢来 ${icon}`,
-  (word: string, icon: string) => `小${word}，蹦蹦跳\n哒哒哒哒心情好 ${icon}`,
-  (word: string, icon: string) => `${word}来，宝宝瞧\n拍手唱唱笑一笑 ${icon}`,
-  (word: string, icon: string) => `摸摸${word}软又香\n宝宝眼睛亮汪汪 ${icon}`
+  (word: string) => `小${word}，轻轻摇\n宝宝看了咯咯笑`,
+  (word: string) => `${word}${word}真可爱\n陪着宝宝慢慢来`,
+  (word: string) => `小${word}，蹦蹦跳\n哒哒哒哒心情好`,
+  (word: string) => `${word}来，宝宝瞧\n拍手唱唱笑一笑`,
+  (word: string) => `摸摸${word}软又香\n宝宝眼睛亮汪汪`
 ]
 
 const SONG_TEMPLATES = [
-  (word: string, icon: string) =>
-    `小${word}，摇呀摇\n宝宝跟着拍拍手\n啦啦啦，笑弯腰\n甜甜梦里也问好 ${icon}`,
-  (word: string, icon: string) =>
-    `${word}${word}排排坐\n咚咚咚，唱小歌\n宝宝听了眨眼睛\n亲亲抱抱暖心窝 ${icon}`,
-  (word: string, icon: string) =>
-    `小${word}，圆溜溜\n陪着宝宝慢慢走\n一二一，拍拍手\n今天也是乖宝宝 ${icon}`
+  (word: string) => `小${word}，摇呀摇\n宝宝跟着拍拍手\n啦啦啦，笑弯腰\n甜甜梦里也问好`,
+  (word: string) => `${word}${word}排排坐\n咚咚咚，唱小歌\n宝宝听了眨眼睛\n亲亲抱抱暖心窝`,
+  (word: string) => `小${word}，圆溜溜\n陪着宝宝慢慢走\n一二一，拍拍手\n今天也是乖宝宝`
 ]
 
 export function getInitialState(): AppState {
@@ -102,7 +97,7 @@ export function getInitialState(): AppState {
     user: {
       id: 'user_demo',
       nickname: '宝宝念念',
-      avatar: '🐻',
+      avatar: 'default',
       remainCount: 12
     },
     topics: [t1, t2, t3],
@@ -110,21 +105,21 @@ export function getInitialState(): AppState {
       {
         id: 'version_car',
         topicId: t1.id,
-        content: '小汽车，滴滴跑\n带着宝宝去逛逛 🚗',
+        content: '小汽车，滴滴跑\n带着宝宝去逛逛',
         isFavorite: true,
         createdAt: now
       },
       {
         id: 'version_banana',
         topicId: t2.id,
-        content: '小香蕉，弯又黄\n宝宝吃了笑脸香 🍌',
+        content: '小香蕉，弯又黄\n宝宝吃了笑脸香',
         isFavorite: true,
         createdAt: now
       },
       {
         id: 'version_bath',
         topicId: t3.id,
-        content: '小水花，哗啦啦\n宝宝洗澡笑哈哈 🛁',
+        content: '小水花，哗啦啦\n宝宝洗澡笑哈哈',
         isFavorite: true,
         createdAt: now
       }
@@ -166,28 +161,11 @@ export function modeCost(mode: GenerateMode) {
   return mode === 'song' ? 5 : 1
 }
 
-export function topicIcon(input: string) {
-  const map: Record<string, string> = {
-    小汽车: '🚗',
-    汽车: '🚗',
-    香蕉: '🍌',
-    洗澡: '🛁',
-    小猫: '🐱',
-    月亮: '🌙',
-    胡萝卜: '🥕',
-    袜子: '🧦',
-    电梯: '🚪',
-    西蓝花: '🥦'
-  }
-  return map[input] || ICONS[Math.abs(hashCode(input)) % ICONS.length]
-}
-
 export function generateContent(input: string, mode: GenerateMode, seed = 0) {
   const cleanInput = input.trim().slice(0, 12) || '小宝贝'
-  const icon = topicIcon(cleanInput)
   const templates = mode === 'song' ? SONG_TEMPLATES : RHYME_TEMPLATES
   const index = Math.abs(hashCode(cleanInput) + seed + Date.now()) % templates.length
-  return templates[index](cleanInput, icon)
+  return templates[index](cleanInput)
 }
 
 export function generateSongLyrics(input: string, seed = 0) {
