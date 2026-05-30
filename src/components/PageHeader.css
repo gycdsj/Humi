@@ -1,0 +1,40 @@
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 72rpx;
+  margin-bottom: 18rpx;
+}
+
+.page-header__left {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+
+.page-header__back {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48rpx;
+  height: 48rpx;
+  margin-right: 12rpx;
+}
+
+.page-header__back-icon {
+  width: 42rpx;
+  height: 42rpx;
+}
+
+.page-header__title {
+  font-size: 39rpx;
+  font-weight: 900;
+  color: #3b281d;
+}
+
+.page-header__subtitle {
+  margin-top: 4rpx;
+  font-size: 25rpx;
+  color: #a58d72;
+}
+

@@ -1,0 +1,169 @@
+.purchase-page {
+  padding-bottom: 46rpx;
+}
+
+.purchase-hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 22rpx 0 28rpx;
+}
+
+.purchase-title {
+  display: block;
+  font-size: 45rpx;
+  font-weight: 900;
+  color: #3d2a20;
+}
+
+.purchase-subtitle {
+  display: block;
+  margin-top: 8rpx;
+  font-size: 27rpx;
+  color: #9d836c;
+}
+
+.purchase-banana {
+  width: 110rpx;
+  height: 110rpx;
+  margin-right: 38rpx;
+}
+
+.plan-list {
+  display: flex;
+  flex-direction: column;
+  gap: 22rpx;
+}
+
+.plan-card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 166rpx;
+  padding: 32rpx 30rpx;
+  overflow: hidden;
+}
+
+.plan-card.is-selected {
+  border-color: #ffc23e;
+  box-shadow: 0 18rpx 42rpx rgba(255, 179, 31, 0.16);
+}
+
+.plan-card.is-selected::before {
+  position: absolute;
+  inset: 0;
+  content: "";
+  background: linear-gradient(90deg, rgba(255, 244, 196, 0.56) 0%, rgba(255, 255, 255, 0) 62%);
+}
+
+.plan-name-row,
+.plan-price-wrap {
+  position: relative;
+  z-index: 1;
+}
+
+.plan-name-row {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+}
+
+.plan-name {
+  font-size: 33rpx;
+  font-weight: 900;
+  color: #4a3125;
+}
+
+.plan-tag {
+  padding: 6rpx 14rpx;
+  font-size: 23rpx;
+  font-weight: 800;
+  color: #fff;
+  background: #ff7fa8;
+  border-radius: 18rpx;
+}
+
+.plan-validity {
+  display: block;
+  margin-top: 32rpx;
+  font-size: 26rpx;
+  color: #a48d75;
+}
+
+.plan-price-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.plan-price {
+  font-size: 48rpx;
+  font-weight: 900;
+  color: #ff4b82;
+}
+
+.plan-check {
+  width: 28rpx;
+  height: 28rpx;
+  margin-top: 14rpx;
+}
+
+.purchase-notes {
+  display: flex;
+  flex-direction: column;
+  gap: 12rpx;
+  margin: 28rpx 8rpx 34rpx;
+  font-size: 25rpx;
+  color: #ad9984;
+}
+
+.purchase-pay {
+  margin-top: 10rpx;
+}
+
+.paid-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  padding: 32rpx 54rpx 0;
+  text-align: center;
+}
+
+.paid-hero {
+  position: relative;
+  width: 260rpx;
+  height: 260rpx;
+  margin: 20rpx auto 38rpx;
+}
+
+.paid-bear {
+  width: 230rpx;
+  height: 230rpx;
+  margin: 0 auto;
+}
+
+.paid-title {
+  font-size: 41rpx;
+  font-weight: 900;
+  color: #422b20;
+}
+
+.paid-desc {
+  display: block;
+  max-width: 520rpx;
+  margin: 22rpx auto 64rpx;
+  font-size: 28rpx;
+  line-height: 1.6;
+  color: #8e7765;
+}
+
+.paid-primary,
+.paid-secondary {
+  width: 100%;
+}
+
+.paid-secondary {
+  margin-top: 18rpx;
+}

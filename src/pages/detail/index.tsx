@@ -1,0 +1,154 @@
+import { useEffect, useMemo, useState } from 'react'
+import { Image, View, Text } from '@tarojs/components'
+import Taro, { useRouter } from '@tarojs/taro'
+import PageHeader from '@/components/PageHeader'
+import { getTopicAssetByInput } from '@/utils/assets'
+import {
+  AppState,
+  deleteVersion,
+  formatTime,
+  getSongsByTopicIds,
+  getTopicVersions,
+  loadState,
+  modeLabel,
+  setFavoriteVersion
+} from '@/utils/store'
+import './index.css'
+
+export default function DetailPage() {
+  const router = useRouter()
+  const topicId = String(router.params.topicId || '')
+  const input = decodeURIComponent(String(router.params.input || ''))
+  const [state, setState] = useState<AppState>(() => loadState())
+  const [playingSongId, setPlayingSongId] = useState('')
+
+  useEffect(() => {
+    setState(loadState())
+  }, [])
+
+  const topics = useMemo(() => {
+    if (input) {
+      return state.topics.filter((item) => item.input === input)
+    }
+
+    const topic = state.topics.find((item) => item.id === topicId)
+    return topic ? [topic] : []
+  }, [state.topics, input, topicId])
+  const topic = topics[0]
+  const topicIds = useMemo(() => topics.map((item) => item.id), [topics])
+  const versions = useMemo(
+    () =>
+      topicIds
+        .flatMap((id) => getTopicVersions(state, id))
+        .sort((a, b) => +new Date(b.createdAt) - +new Date(a.createdAt)),
+    [state, topicIds]
+  )
+  const songs = useMemo(() => getSongsByTopicIds(state, topicIds), [state, topicIds])
+  const modeText = useMemo(() => Array.from(new Set(topics.map((item) => modeLabel(item.mode)))).join(' / '), [topics])
+
+  const markFavorite = (versionId: string) => {
+    setState(setFavoriteVersion(state, versionId))
+  }
+
+  const removeVersion = (versionId: string) => {
+    Taro.showModal({
+      title: '删除版本',
+      content: '确定删除这个版本吗？',
+      confirmColor: '#ff477f',
+      success: (res) => {
+        if (res.confirm) {
+          const next = deleteVersion(state, versionId)
+          setState(next)
+          const hasCurrentGroup = input
+            ? next.topics.some((item) => item.input === input)
+            : next.topics.some((item) => item.id === topicId)
+          if (!hasCurrentGroup) {
+            Taro.navigateBack()
+          }
+        }
+      }
+    })
+  }
+
+  return (
+    <View className='page-shell detail-page'>
+      <View className='safe-top' />
+      <PageHeader title='历史详情' />
+
+      {topic ? (
+        <>
+          <View className='detail-topic card'>
+            <Image className='detail-topic__icon' src={getTopicAssetByInput(topic.input)} mode='aspectFit' />
+            <View>
+              <Text className='detail-topic__title'>{topic.input}</Text>
+              <Text className='detail-topic__meta'>
+                {modeText} · {versions.length}个版本{songs.length ? ` · ${songs.length}首儿歌` : ''}
+              </Text>
+            </View>
+          </View>
+
+          {songs.length > 0 && (
+            <View className='song-recall card'>
+              <Text className='song-recall__title'>儿歌回顾</Text>
+              {songs.map((song, index) => (
+                <View className='song-recall__item' key={song.id}>
+                  <View
+                    className='song-recall__play'
+                    onClick={() => setPlayingSongId(playingSongId === song.id ? '' : song.id)}
+                  >
+                    <View className={`song-recall__mark ${playingSongId === song.id ? 'is-pause' : 'is-play'}`} />
+                  </View>
+                  <View className='song-recall__main'>
+                    <Text className='song-recall__name'>儿歌 {songs.length - index}</Text>
+                    <Text className='song-recall__time'>{formatTime(song.createdAt)}</Text>
+                    <View className='song-recall__lyrics'>
+                      {song.lyrics.split('\n').map((line) => (
+                        <Text className='song-recall__line' key={`${song.id}-${line}`}>
+                          {line}
+                        </Text>
+                      ))}
+                    </View>
+                  </View>
+                </View>
+              ))}
+            </View>
+          )}
+
+          <View className='version-list'>
+            {versions.map((version, index) => (
+              <View className={`version-card card ${version.isFavorite ? 'is-favorite' : ''}`} key={version.id}>
+                <View className='version-head'>
+                  <Text className='version-title'>版本 {versions.length - index}</Text>
+                  <Text className='version-time'>{formatTime(version.createdAt)}</Text>
+                </View>
+                <View className='version-content'>
+                  {version.content.split('\n').map((line) => (
+                    <Text className='version-line' key={line}>
+                      {line}
+                    </Text>
+                  ))}
+                </View>
+                <View className='version-actions'>
+                  <View className='version-action' onClick={() => markFavorite(version.id)}>
+                    {version.isFavorite ? '当前满意' : '设为满意'}
+                  </View>
+                  <View
+                    className='version-action'
+                    onClick={() => Taro.navigateTo({ url: `/pages/result/index?topicId=${version.topicId}&versionId=${version.id}` })}
+                  >
+                    查看
+                  </View>
+                  <View className='version-action version-action--danger' onClick={() => removeVersion(version.id)}>
+                    删除
+                  </View>
+                </View>
+              </View>
+            ))}
+          </View>
+        </>
+      ) : (
+        <View className='empty-detail card'>没有找到这个主题</View>
+      )}
+    </View>
+  )
+}

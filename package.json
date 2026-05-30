@@ -1,0 +1,50 @@
+{
+  "name": "baby-nian-nian",
+  "version": "1.0.0",
+  "description": "宝宝念念微信小程序 MVP",
+  "private": true,
+  "scripts": {
+    "build:weapp": "taro build --type weapp",
+    "crop:assets": "node scripts/crop-assets.mjs",
+    "generate:assets": "node scripts/generate-dev-assets.mjs",
+    "dev:weapp": "taro build --type weapp --watch",
+    "typecheck": "tsc --noEmit"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gycdsj/Humi.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/gycdsj/Humi/issues"
+  },
+  "homepage": "https://github.com/gycdsj/Humi#readme",
+  "dependencies": {
+    "@tarojs/components": "^4.2.0",
+    "@tarojs/helper": "^4.2.0",
+    "@tarojs/plugin-framework-react": "^4.2.0",
+    "@tarojs/plugin-html": "^4.2.0",
+    "@tarojs/plugin-platform-weapp": "^4.2.0",
+    "@tarojs/react": "^4.2.0",
+    "@tarojs/runtime": "^4.2.0",
+    "@tarojs/shared": "^4.2.0",
+    "@tarojs/taro": "^4.2.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.29.0",
+    "@babel/preset-react": "^7.28.5",
+    "@tarojs/cli": "^4.2.0",
+    "@tarojs/webpack5-runner": "^4.2.0",
+    "@types/node": "^25.9.1",
+    "@types/react": "^18.3.29",
+    "@types/react-dom": "^18.3.7",
+    "babel-preset-taro": "^4.2.0",
+    "miniprogram-ci": "^2.1.31",
+    "sharp": "^0.34.5",
+    "typescript": "^6.0.3"
+  }
+}
