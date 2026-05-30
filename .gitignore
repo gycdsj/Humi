@@ -1,6 +1,11 @@
 node_modules/
+dist/
 .swc/
 .DS_Store
+private.key
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+new-sprite.jpg
+new-sprite.png
+humi-qrcode.png

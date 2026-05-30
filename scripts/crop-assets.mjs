@@ -134,9 +134,23 @@ function detectWhiteCards(buffer, width, height) {
     }
   }
 
-  return boxes.sort((a, b) => {
+  // Sort first
+  boxes.sort((a, b) => {
     if (Math.abs(a.top - b.top) > 35) return a.top - b.top
     return a.left - b.left
+  })
+
+  // Filter out boxes that are completely inside another box
+  return boxes.filter((box, i) => {
+    return !boxes.some((other, j) => {
+      if (i === j) return false
+      return (
+        other.left <= box.left &&
+        other.top <= box.top &&
+        other.left + other.width >= box.left + box.width &&
+        other.top + other.height >= box.top + box.height
+      )
+    })
   })
 }
 
