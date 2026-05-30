@@ -166,7 +166,7 @@ export function modeLabel(mode: GenerateMode) {
 }
 
 export function modeCost(mode: GenerateMode) {
-  return mode === 'song' ? 5 : 1
+  return mode === 'song' ? 2 : 1
 }
 
 export function generateContent(input: string, mode: GenerateMode, lineCount: LineCount = 2, seed = 0) {
@@ -201,6 +201,13 @@ export function getFavoriteVersions(state: AppState) {
 
 export function getTopicByVersion(state: AppState, version: Version) {
   return state.topics.find((topic) => topic.id === version.topicId)
+}
+
+export function getSongsByTopicIds(state: AppState, topicIds: string[]) {
+  const topicIdSet = new Set(topicIds)
+  return state.songs
+    .filter((song) => topicIdSet.has(song.topicId))
+    .sort((a, b) => +new Date(b.createdAt) - +new Date(a.createdAt))
 }
 
 export function formatTime(value: string) {
@@ -370,6 +377,18 @@ export function buyPackage(state: AppState, packageId: string) {
       },
       ...state.orders
     ]
+  }
+  saveState(next)
+  return next
+}
+
+export function updateUserNickname(state: AppState, nickname: string) {
+  const next: AppState = {
+    ...state,
+    user: {
+      ...state.user,
+      nickname
+    }
   }
   saveState(next)
   return next

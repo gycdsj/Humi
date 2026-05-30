@@ -6,9 +6,9 @@ import PageHeader from '@/components/PageHeader'
 import { getTopicAssetByInput, imageAssets } from '@/utils/assets'
 import {
   AppState,
-  Topic,
   formatTime,
   getFavoriteVersions,
+  getSongsByTopicIds,
   getTopicVersions,
   loadState,
   modeLabel
@@ -16,6 +16,16 @@ import {
 import './index.css'
 
 type HistoryTab = 'all' | 'favorites'
+
+interface HistoryGroup {
+  input: string
+  topics: AppState['topics']
+  versionCount: number
+  latestAt: string
+  hasFavorite: boolean
+  hasSong: boolean
+  modeText: string
+}
 
 export default function HistoryPage() {
   const router = useRouter()
@@ -30,11 +40,36 @@ export default function HistoryPage() {
     }
   }, [router.params.tab])
 
-  const allTopics = useMemo(() => {
-    return state.topics
-      .filter((topic) => topic.input.includes(query.trim()))
-      .sort((a, b) => +new Date(b.createdAt) - +new Date(a.createdAt))
-  }, [state.topics, query])
+  const historyGroups = useMemo(() => {
+    const queryText = query.trim()
+    const groupMap = new Map<string, AppState['topics']>()
+
+    state.topics.forEach((topic) => {
+      if (queryText && !topic.input.includes(queryText)) return
+      const topics = groupMap.get(topic.input) || []
+      topics.push(topic)
+      groupMap.set(topic.input, topics)
+    })
+
+    return Array.from(groupMap.entries())
+      .map(([input, topics]): HistoryGroup => {
+        const topicIds = topics.map((topic) => topic.id)
+        const versions = topicIds.flatMap((topicId) => getTopicVersions(state, topicId))
+        const latestVersion = versions.sort((a, b) => +new Date(b.createdAt) - +new Date(a.createdAt))[0]
+        const modes = Array.from(new Set(topics.map((topic) => modeLabel(topic.mode))))
+
+        return {
+          input,
+          topics,
+          versionCount: versions.length,
+          latestAt: latestVersion?.createdAt || topics[0].createdAt,
+          hasFavorite: versions.some((item) => item.isFavorite),
+          hasSong: getSongsByTopicIds(state, topicIds).length > 0,
+          modeText: modes.join(' / ')
+        }
+      })
+      .sort((a, b) => +new Date(b.latestAt) - +new Date(a.latestAt))
+  }, [state, query])
 
   const favorites = useMemo(() => {
     return getFavoriteVersions(state).filter((version) => {
@@ -43,24 +78,23 @@ export default function HistoryPage() {
     })
   }, [state, query])
 
-  const renderTopic = (topic: Topic) => {
-    const versions = getTopicVersions(state, topic.id)
-    const latest = versions[versions.length - 1]
-
+  const renderGroup = (group: HistoryGroup) => {
     return (
       <View
         className='history-item'
-        key={topic.id}
-        onClick={() => Taro.navigateTo({ url: `/pages/detail/index?topicId=${topic.id}` })}
+        key={group.input}
+        onClick={() => Taro.navigateTo({ url: `/pages/detail/index?input=${encodeURIComponent(group.input)}` })}
       >
-        <Image className='history-icon' src={getTopicAssetByInput(topic.input)} mode='aspectFit' />
+        <Image className='history-icon' src={getTopicAssetByInput(group.input)} mode='aspectFit' />
         <View className='history-main'>
-          <Text className='history-title'>{topic.input}</Text>
-          <Text className='history-meta'>{modeLabel(topic.mode)} · {versions.length}个版本</Text>
+          <Text className='history-title'>{group.input}</Text>
+          <Text className='history-meta'>
+            {group.modeText} · {group.versionCount}个版本{group.hasSong ? ' · 含儿歌' : ''}
+          </Text>
         </View>
         <View className='history-side'>
-          <Text className='history-time'>{latest ? formatTime(latest.createdAt) : formatTime(topic.createdAt)}</Text>
-          {versions.some((item) => item.isFavorite) && (
+          <Text className='history-time'>{formatTime(group.latestAt)}</Text>
+          {group.hasFavorite && (
             <Image className='history-heart' src={imageAssets.iconFavoriteActive} mode='aspectFit' />
           )}
         </View>
@@ -98,7 +132,7 @@ export default function HistoryPage() {
 
       <View className='history-list card'>
         {tab === 'all' &&
-          allTopics.map((topic) => renderTopic(topic))}
+          historyGroups.map((group) => renderGroup(group))}
         {tab === 'favorites' &&
           favorites.map((version) => {
             const topic = state.topics.find((item) => item.id === version.topicId)
@@ -122,7 +156,7 @@ export default function HistoryPage() {
               </View>
             )
           })}
-        {((tab === 'all' && allTopics.length === 0) || (tab === 'favorites' && favorites.length === 0)) && (
+        {((tab === 'all' && historyGroups.length === 0) || (tab === 'favorites' && favorites.length === 0)) && (
           <View className='empty-history'>还没有内容，去首页生成一句吧～</View>
         )}
       </View>

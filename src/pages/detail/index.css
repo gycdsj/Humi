@@ -37,6 +37,88 @@
   gap: 22rpx;
 }
 
+.song-recall {
+  padding: 26rpx;
+  margin-bottom: 24rpx;
+}
+
+.song-recall__title {
+  display: block;
+  margin-bottom: 20rpx;
+  font-size: 31rpx;
+  font-weight: 900;
+  color: #52392d;
+}
+
+.song-recall__item {
+  display: flex;
+  padding: 22rpx 0;
+  border-top: 2rpx solid rgba(232, 218, 202, 0.58);
+}
+
+.song-recall__play {
+  display: flex;
+  flex: 0 0 72rpx;
+  align-items: center;
+  justify-content: center;
+  width: 72rpx;
+  height: 72rpx;
+  margin-right: 20rpx;
+  background: linear-gradient(135deg, #ffc14a 0%, #ff7b9f 100%);
+  border-radius: 50%;
+}
+
+.song-recall__mark.is-play {
+  width: 0;
+  height: 0;
+  margin-left: 5rpx;
+  border-top: 14rpx solid transparent;
+  border-bottom: 14rpx solid transparent;
+  border-left: 22rpx solid #fff;
+}
+
+.song-recall__mark.is-pause {
+  width: 24rpx;
+  height: 28rpx;
+  border-right: 7rpx solid #fff;
+  border-left: 7rpx solid #fff;
+}
+
+.song-recall__main {
+  flex: 1;
+  min-width: 0;
+}
+
+.song-recall__name {
+  display: block;
+  font-size: 29rpx;
+  font-weight: 900;
+  color: #4d3428;
+}
+
+.song-recall__time {
+  display: block;
+  margin-top: 6rpx;
+  font-size: 24rpx;
+  color: #a58d72;
+}
+
+.song-recall__lyrics {
+  padding: 16rpx 18rpx;
+  margin-top: 14rpx;
+  background: #fff8e9;
+  border-radius: 18rpx;
+}
+
+.song-recall__line {
+  display: block;
+  margin: 6rpx 0;
+  font-size: 27rpx;
+  font-weight: 700;
+  line-height: 1.42;
+  color: #5f4535;
+}
+
 .version-card {
   padding: 28rpx;
 }

@@ -2,18 +2,14 @@ import { useEffect, useState } from 'react'
 import { Image, View, Text } from '@tarojs/components'
 import Taro from '@tarojs/taro'
 import BottomNav from '@/components/BottomNav'
-import PageHeader from '@/components/PageHeader'
 import { imageAssets } from '@/utils/assets'
-import { AppState, loadState } from '@/utils/store'
+import { AppState, loadState, updateUserNickname } from '@/utils/store'
 import './index.css'
 
 const MENU = [
   { icon: imageAssets.menuPackage, title: '我的套餐', extra: '' },
   { icon: imageAssets.menuUsage, title: '使用记录', extra: '' },
-  { icon: imageAssets.menuFavorite, title: '满意作品', extra: '' },
-  { icon: imageAssets.menuFeedback, title: '意见反馈', extra: '' },
-  { icon: imageAssets.menuAbout, title: '关于我们', extra: '' },
-  { icon: imageAssets.menuSetting, title: '设置', extra: '' }
+  { icon: imageAssets.menuFavorite, title: '满意作品', extra: '' }
 ]
 
 export default function ProfilePage() {
@@ -42,15 +38,33 @@ export default function ProfilePage() {
     Taro.showToast({ title: 'MVP版本即将开放', icon: 'none' })
   }
 
+  const editNickname = () => {
+    Taro.showModal({
+      title: '编辑昵称',
+      content: state.user.nickname,
+      editable: true,
+      placeholderText: '请输入昵称',
+      confirmColor: '#ff477f',
+      success: (res) => {
+        const nickname = String((res as unknown as { content?: string }).content || '').trim().slice(0, 12)
+        if (res.confirm && nickname) {
+          setState(updateUserNickname(loadState(), nickname))
+        }
+      }
+    } as Taro.showModal.Option)
+  }
+
   return (
     <View className='page-shell cool profile-page'>
-      <View className='safe-top' />
-      <PageHeader showBack={false} />
+      <View className='profile-safe-top' />
 
       <View className='profile-card card'>
         <Image className='profile-avatar' src={imageAssets.defaultAvatar} mode='aspectFit' />
         <View className='profile-info'>
-          <Text className='profile-name'>{state.user.nickname}</Text>
+          <View className='profile-name-row'>
+            <Text className='profile-name'>{state.user.nickname}</Text>
+            <View className='profile-edit' onClick={editNickname}>编辑</View>
+          </View>
           <Text className='profile-slogan'>陪宝宝快乐成长每一天</Text>
         </View>
       </View>
@@ -62,6 +76,18 @@ export default function ProfilePage() {
         </View>
         <View className='package-btn' onClick={() => Taro.navigateTo({ url: '/pages/purchase/index' })}>
           去购买
+        </View>
+      </View>
+
+      <View className='cost-card card'>
+        <Text className='cost-title'>费用说明</Text>
+        <View className='cost-row'>
+          <Text>生成顺口溜</Text>
+          <Text className='cost-count'>消耗 1 次</Text>
+        </View>
+        <View className='cost-row'>
+          <Text>生成儿歌</Text>
+          <Text className='cost-count'>消耗 2 次</Text>
         </View>
       </View>
 

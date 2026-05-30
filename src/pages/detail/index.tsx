@@ -7,6 +7,7 @@ import {
   AppState,
   deleteVersion,
   formatTime,
+  getSongsByTopicIds,
   getTopicVersions,
   loadState,
   modeLabel,
@@ -17,14 +18,33 @@ import './index.css'
 export default function DetailPage() {
   const router = useRouter()
   const topicId = String(router.params.topicId || '')
+  const input = decodeURIComponent(String(router.params.input || ''))
   const [state, setState] = useState<AppState>(() => loadState())
+  const [playingSongId, setPlayingSongId] = useState('')
 
   useEffect(() => {
     setState(loadState())
   }, [])
 
-  const topic = state.topics.find((item) => item.id === topicId)
-  const versions = useMemo(() => getTopicVersions(state, topicId).reverse(), [state, topicId])
+  const topics = useMemo(() => {
+    if (input) {
+      return state.topics.filter((item) => item.input === input)
+    }
+
+    const topic = state.topics.find((item) => item.id === topicId)
+    return topic ? [topic] : []
+  }, [state.topics, input, topicId])
+  const topic = topics[0]
+  const topicIds = useMemo(() => topics.map((item) => item.id), [topics])
+  const versions = useMemo(
+    () =>
+      topicIds
+        .flatMap((id) => getTopicVersions(state, id))
+        .sort((a, b) => +new Date(b.createdAt) - +new Date(a.createdAt)),
+    [state, topicIds]
+  )
+  const songs = useMemo(() => getSongsByTopicIds(state, topicIds), [state, topicIds])
+  const modeText = useMemo(() => Array.from(new Set(topics.map((item) => modeLabel(item.mode)))).join(' / '), [topics])
 
   const markFavorite = (versionId: string) => {
     setState(setFavoriteVersion(state, versionId))
@@ -39,7 +59,10 @@ export default function DetailPage() {
         if (res.confirm) {
           const next = deleteVersion(state, versionId)
           setState(next)
-          if (!next.topics.some((item) => item.id === topicId)) {
+          const hasCurrentGroup = input
+            ? next.topics.some((item) => item.input === input)
+            : next.topics.some((item) => item.id === topicId)
+          if (!hasCurrentGroup) {
             Taro.navigateBack()
           }
         }
@@ -58,9 +81,38 @@ export default function DetailPage() {
             <Image className='detail-topic__icon' src={getTopicAssetByInput(topic.input)} mode='aspectFit' />
             <View>
               <Text className='detail-topic__title'>{topic.input}</Text>
-              <Text className='detail-topic__meta'>{modeLabel(topic.mode)} · {versions.length}个版本</Text>
+              <Text className='detail-topic__meta'>
+                {modeText} · {versions.length}个版本{songs.length ? ` · ${songs.length}首儿歌` : ''}
+              </Text>
             </View>
           </View>
+
+          {songs.length > 0 && (
+            <View className='song-recall card'>
+              <Text className='song-recall__title'>儿歌回顾</Text>
+              {songs.map((song, index) => (
+                <View className='song-recall__item' key={song.id}>
+                  <View
+                    className='song-recall__play'
+                    onClick={() => setPlayingSongId(playingSongId === song.id ? '' : song.id)}
+                  >
+                    <View className={`song-recall__mark ${playingSongId === song.id ? 'is-pause' : 'is-play'}`} />
+                  </View>
+                  <View className='song-recall__main'>
+                    <Text className='song-recall__name'>儿歌 {songs.length - index}</Text>
+                    <Text className='song-recall__time'>{formatTime(song.createdAt)}</Text>
+                    <View className='song-recall__lyrics'>
+                      {song.lyrics.split('\n').map((line) => (
+                        <Text className='song-recall__line' key={`${song.id}-${line}`}>
+                          {line}
+                        </Text>
+                      ))}
+                    </View>
+                  </View>
+                </View>
+              ))}
+            </View>
+          )}
 
           <View className='version-list'>
             {versions.map((version, index) => (
@@ -82,7 +134,7 @@ export default function DetailPage() {
                   </View>
                   <View
                     className='version-action'
-                    onClick={() => Taro.navigateTo({ url: `/pages/result/index?topicId=${topic.id}&versionId=${version.id}` })}
+                    onClick={() => Taro.navigateTo({ url: `/pages/result/index?topicId=${version.topicId}&versionId=${version.id}` })}
                   >
                     查看
                   </View>

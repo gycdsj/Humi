@@ -25,7 +25,6 @@ export default function PageHeader({
           {subtitle && <View className='page-header__subtitle'>{subtitle}</View>}
         </View>
       </View>
-      <Image className='page-header__more' src={imageAssets.iconMore} mode='aspectFit' />
     </View>
   )
 }
