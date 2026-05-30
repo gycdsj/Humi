@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Image, View, Text, Input } from '@tarojs/components'
-import Taro from '@tarojs/taro'
+import Taro, { useDidShow } from '@tarojs/taro'
 import BottomNav from '@/components/BottomNav'
 import QuotaModal from '@/components/QuotaModal'
 import { getTopicAssetByInput, imageAssets } from '@/utils/assets'
@@ -28,6 +28,10 @@ export default function IndexPage() {
     setState(loadState())
   }, [])
 
+  useDidShow(() => {
+    setState(loadState())
+  })
+
   const favorites = useMemo(() => getFavoriteVersions(state).slice(0, 3), [state])
 
   const handleGenerate = () => {
@@ -37,8 +41,10 @@ export default function IndexPage() {
       return
     }
 
-    const result = createTopicWithVersion(state, input, mode, lineCount)
+    const latestState = loadState()
+    const result = createTopicWithVersion(latestState, input, mode, lineCount)
     if (!result.ok) {
+      setState(latestState)
       setShowQuota(true)
       return
     }

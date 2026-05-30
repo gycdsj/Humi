@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Image, View, Text } from '@tarojs/components'
-import Taro, { useRouter } from '@tarojs/taro'
+import Taro, { useDidShow, useRouter } from '@tarojs/taro'
 import PageHeader from '@/components/PageHeader'
 import QuotaModal from '@/components/QuotaModal'
 import { getTopicAssetByInput, imageAssets } from '@/utils/assets'
@@ -31,6 +31,10 @@ export default function ResultPage() {
     setVersionId(String(router.params.versionId || ''))
   }, [router.params.versionId])
 
+  useDidShow(() => {
+    setState(loadState())
+  })
+
   const topic = state.topics.find((item) => item.id === topicId)
   const versions = useMemo(() => getTopicVersions(state, topicId), [state, topicId])
   const current: Version | undefined = versions.find((item) => item.id === versionId) || versions[versions.length - 1]
@@ -38,9 +42,13 @@ export default function ResultPage() {
   const latestSong = topic ? state.songs.find((item) => item.topicId === topic.id) : undefined
 
   const regenerate = () => {
-    if (!topic) return
-    const result = regenerateVersion(state, topic.id)
+    const latestState = loadState()
+    const latestTopic = latestState.topics.find((item) => item.id === topicId)
+    if (!latestTopic) return
+
+    const result = regenerateVersion(latestState, latestTopic.id)
     if (!result.ok) {
+      setState(latestState)
       setShowQuota(true)
       return
     }
@@ -50,7 +58,7 @@ export default function ResultPage() {
   }
 
   const selectLineCount = () => {
-    if (!topic) return
+    if (!topicId) return
 
     Taro.showActionSheet({
       itemList: LINE_COUNT_OPTIONS.map((count) => `${count}句`),
@@ -58,8 +66,13 @@ export default function ResultPage() {
         const count = LINE_COUNT_OPTIONS[res.tapIndex] as LineCount | undefined
         if (!count) return
 
-        const result = regenerateVersion(state, topic.id, count)
+        const latestState = loadState()
+        const latestTopic = latestState.topics.find((item) => item.id === topicId)
+        if (!latestTopic) return
+
+        const result = regenerateVersion(latestState, latestTopic.id, count)
         if (!result.ok) {
+          setState(latestState)
           setShowQuota(true)
           return
         }

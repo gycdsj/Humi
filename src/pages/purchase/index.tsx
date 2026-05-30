@@ -21,7 +21,7 @@ export default function PurchasePage() {
   )
 
   const pay = () => {
-    const next = buyPackage(state, selected.id)
+    const next = buyPackage(loadState(), selected.id)
     setState(next)
     setPaid(true)
   }
