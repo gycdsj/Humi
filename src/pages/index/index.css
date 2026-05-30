@@ -45,7 +45,7 @@
 }
 
 .brand-title {
-  font-size: 44rpx;
+  font-size: 48rpx;
   font-weight: 900;
   line-height: 1;
   color: #3e281b;
@@ -54,7 +54,7 @@
 .brand-subtitle {
   display: block;
   margin-top: 12rpx;
-  font-size: 22rpx;
+  font-size: 26rpx;
   font-weight: 600;
   line-height: 1.45;
   color: #9a7d5e;
@@ -78,7 +78,7 @@
 
 .keyword-input {
   height: 62rpx;
-  font-size: 27rpx;
+  font-size: 30rpx;
   color: #50372a;
 }
 
@@ -90,7 +90,7 @@
   position: absolute;
   right: 24rpx;
   bottom: 18rpx;
-  font-size: 22rpx;
+  font-size: 25rpx;
   color: #bda58d;
 }
 
@@ -119,15 +119,53 @@
 }
 
 .mode-title {
-  font-size: 28rpx;
+  font-size: 31rpx;
   font-weight: 900;
 }
 
 .mode-desc {
   margin-top: 8rpx;
-  font-size: 22rpx;
+  font-size: 25rpx;
   font-weight: 700;
   opacity: 0.78;
+}
+
+.line-count-switch {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14rpx 18rpx 14rpx 26rpx;
+  margin-top: 18rpx;
+  background: rgba(255, 255, 255, 0.74);
+}
+
+.line-count-label {
+  font-size: 29rpx;
+  font-weight: 900;
+  color: #5a3b28;
+}
+
+.line-count-options {
+  display: flex;
+  gap: 10rpx;
+}
+
+.line-count-option {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 92rpx;
+  height: 58rpx;
+  font-size: 27rpx;
+  font-weight: 800;
+  color: #8d725a;
+  background: #fff7ea;
+  border-radius: 29rpx;
+}
+
+.line-count-option.is-active {
+  color: #744600;
+  background: linear-gradient(135deg, #ffd66e 0%, #ffb229 100%);
 }
 
 .generate-btn {
@@ -157,7 +195,7 @@
 .favorite-title {
   display: block;
   overflow: hidden;
-  font-size: 24rpx;
+  font-size: 27rpx;
   font-weight: 900;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -167,7 +205,7 @@
   display: block;
   margin-top: 6rpx;
   overflow: hidden;
-  font-size: 20rpx;
+  font-size: 23rpx;
   color: #9d8875;
   text-overflow: ellipsis;
   white-space: nowrap;

@@ -7,6 +7,8 @@ import { getTopicAssetByInput, imageAssets } from '@/utils/assets'
 import {
   AppState,
   GenerateMode,
+  LineCount,
+  LINE_COUNT_OPTIONS,
   createTopicWithVersion,
   getFavoriteVersions,
   getTopicByVersion,
@@ -18,6 +20,7 @@ import './index.css'
 export default function IndexPage() {
   const [keyword, setKeyword] = useState('')
   const [mode, setMode] = useState<GenerateMode>('rhyme')
+  const [lineCount, setLineCount] = useState<LineCount>(2)
   const [state, setState] = useState<AppState>(() => loadState())
   const [showQuota, setShowQuota] = useState(false)
 
@@ -34,7 +37,7 @@ export default function IndexPage() {
       return
     }
 
-    const result = createTopicWithVersion(state, input, mode)
+    const result = createTopicWithVersion(state, input, mode, lineCount)
     if (!result.ok) {
       setShowQuota(true)
       return
@@ -74,17 +77,38 @@ export default function IndexPage() {
       <View className='mode-switch card'>
         <View
           className={`mode-option ${mode === 'rhyme' ? 'is-active' : ''}`}
-          onClick={() => setMode('rhyme')}
+          onClick={() => {
+            setMode('rhyme')
+            setLineCount(2)
+          }}
         >
           <Text className='mode-title'>顺口溜</Text>
-          <Text className='mode-desc'>2-4句</Text>
+          <Text className='mode-desc'>{mode === 'rhyme' ? `${lineCount}句` : '默认2句'}</Text>
         </View>
         <View
           className={`mode-option ${mode === 'song' ? 'is-active' : ''}`}
-          onClick={() => setMode('song')}
+          onClick={() => {
+            setMode('song')
+            setLineCount(2)
+          }}
         >
           <Text className='mode-title'>儿歌模式</Text>
-          <Text className='mode-desc'>4句以上</Text>
+          <Text className='mode-desc'>{mode === 'song' ? `${lineCount}句` : '默认2句'}</Text>
+        </View>
+      </View>
+
+      <View className='line-count-switch card'>
+        <Text className='line-count-label'>生成句数</Text>
+        <View className='line-count-options'>
+          {LINE_COUNT_OPTIONS.map((count) => (
+            <View
+              key={count}
+              className={`line-count-option ${lineCount === count ? 'is-active' : ''}`}
+              onClick={() => setLineCount(count)}
+            >
+              {count}句
+            </View>
+          ))}
         </View>
       </View>
 

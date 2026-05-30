@@ -6,6 +6,8 @@ import QuotaModal from '@/components/QuotaModal'
 import { getTopicAssetByInput, imageAssets } from '@/utils/assets'
 import {
   AppState,
+  LINE_COUNT_OPTIONS,
+  LineCount,
   Version,
   getTopicVersions,
   loadState,
@@ -47,6 +49,36 @@ export default function ResultPage() {
     setVersionId(result.versionId)
   }
 
+  const selectLineCount = () => {
+    if (!topic) return
+
+    Taro.showActionSheet({
+      itemList: LINE_COUNT_OPTIONS.map((count) => `${count}句`),
+      success: (res) => {
+        const count = LINE_COUNT_OPTIONS[res.tapIndex] as LineCount | undefined
+        if (!count) return
+
+        const result = regenerateVersion(state, topic.id, count)
+        if (!result.ok) {
+          setShowQuota(true)
+          return
+        }
+
+        setState(result.state)
+        setVersionId(result.versionId)
+      }
+    })
+  }
+
+  const showVersion = (direction: 'prev' | 'next') => {
+    if (!current) return
+    const index = versions.findIndex((item) => item.id === current.id)
+    const next = direction === 'prev' ? versions[index - 1] : versions[index + 1]
+    if (next) {
+      setVersionId(next.id)
+    }
+  }
+
   const toggleFavorite = () => {
     if (!current) return
     const next = setFavoriteVersion(state, current.id)
@@ -79,7 +111,9 @@ export default function ResultPage() {
           </View>
           <View className='topic-tags'>
             <Text className='topic-tag topic-tag--active'>{modeLabel(topic.mode)}</Text>
-            <Text className='topic-tag'>{lines.length}句⌄</Text>
+            <Text className='topic-tag topic-tag--selectable' onClick={selectLineCount}>
+              {lines.length}句⌄
+            </Text>
           </View>
         </View>
       </View>
@@ -96,10 +130,13 @@ export default function ResultPage() {
         <Image className='card-deco' src={getTopicAssetByInput(topic.input)} mode='aspectFit' />
         {versions.length > 1 && (
           <>
-            <View className='version-arrow version-arrow--left'>
+            <View className={`version-arrow version-arrow--left ${currentIndex <= 1 ? 'is-disabled' : ''}`} onClick={() => showVersion('prev')}>
               <Image className='version-arrow__icon' src={imageAssets.iconBack} mode='aspectFit' />
             </View>
-            <View className='version-arrow version-arrow--right'>
+            <View
+              className={`version-arrow version-arrow--right ${currentIndex >= versions.length ? 'is-disabled' : ''}`}
+              onClick={() => showVersion('next')}
+            >
               <Image className='version-arrow__icon' src={imageAssets.iconBack} mode='aspectFit' />
             </View>
           </>

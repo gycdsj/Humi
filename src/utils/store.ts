@@ -1,11 +1,13 @@
 import Taro from '@tarojs/taro'
 
 export type GenerateMode = 'rhyme' | 'song'
+export type LineCount = 2 | 4 | 8
 
 export interface Topic {
   id: string
   input: string
   mode: GenerateMode
+  lineCount?: LineCount
   createdAt: string
 }
 
@@ -73,25 +75,31 @@ export const PACKAGE_PLANS: PackagePlan[] = [
   { id: 'pack_50', name: '50次套餐', count: 50, price: 19.9, validity: '有效期 90 天', tag: '更划算' }
 ]
 
-const RHYME_TEMPLATES = [
-  (word: string) => `小${word}，轻轻摇\n宝宝看了咯咯笑`,
-  (word: string) => `${word}${word}真可爱\n陪着宝宝慢慢来`,
-  (word: string) => `小${word}，蹦蹦跳\n哒哒哒哒心情好`,
-  (word: string) => `${word}来，宝宝瞧\n拍手唱唱笑一笑`,
-  (word: string) => `摸摸${word}软又香\n宝宝眼睛亮汪汪`
+export const LINE_COUNT_OPTIONS: LineCount[] = [2, 4, 8]
+
+const RHYME_COUPLETS = [
+  (word: string) => [`小${word}，轻轻摇`, '宝宝看了咯咯笑'],
+  (word: string) => [`${word}${word}真可爱`, '陪着宝宝慢慢来'],
+  (word: string) => [`小${word}，蹦蹦跳`, '哒哒哒哒心情好'],
+  (word: string) => [`${word}来，宝宝瞧`, '拍手唱唱笑一笑'],
+  (word: string) => [`摸摸${word}软又香`, '宝宝眼睛亮汪汪'],
+  (word: string) => [`小${word}，转个圈`, '甜甜声音绕耳边']
 ]
 
-const SONG_TEMPLATES = [
-  (word: string) => `小${word}，摇呀摇\n宝宝跟着拍拍手\n啦啦啦，笑弯腰\n甜甜梦里也问好`,
-  (word: string) => `${word}${word}排排坐\n咚咚咚，唱小歌\n宝宝听了眨眼睛\n亲亲抱抱暖心窝`,
-  (word: string) => `小${word}，圆溜溜\n陪着宝宝慢慢走\n一二一，拍拍手\n今天也是乖宝宝`
+const SONG_COUPLETS = [
+  (word: string) => [`小${word}，摇呀摇`, '宝宝跟着拍拍手'],
+  (word: string) => ['啦啦啦，笑弯腰', '甜甜梦里也问好'],
+  (word: string) => [`${word}${word}排排坐`, '咚咚咚，唱小歌'],
+  (word: string) => ['宝宝听了眨眼睛', '亲亲抱抱暖心窝'],
+  (word: string) => [`小${word}，圆溜溜`, '陪着宝宝慢慢走'],
+  (word: string) => ['一二一，拍拍手', '今天也是乖宝宝']
 ]
 
 export function getInitialState(): AppState {
   const now = new Date().toISOString()
-  const t1 = { id: 'topic_car', input: '小汽车', mode: 'rhyme' as GenerateMode, createdAt: now }
-  const t2 = { id: 'topic_banana', input: '香蕉', mode: 'rhyme' as GenerateMode, createdAt: now }
-  const t3 = { id: 'topic_bath', input: '洗澡', mode: 'rhyme' as GenerateMode, createdAt: now }
+  const t1 = { id: 'topic_car', input: '小汽车', mode: 'rhyme' as GenerateMode, lineCount: 2 as LineCount, createdAt: now }
+  const t2 = { id: 'topic_banana', input: '香蕉', mode: 'rhyme' as GenerateMode, lineCount: 2 as LineCount, createdAt: now }
+  const t3 = { id: 'topic_bath', input: '洗澡', mode: 'rhyme' as GenerateMode, lineCount: 2 as LineCount, createdAt: now }
 
   return {
     user: {
@@ -161,15 +169,22 @@ export function modeCost(mode: GenerateMode) {
   return mode === 'song' ? 5 : 1
 }
 
-export function generateContent(input: string, mode: GenerateMode, seed = 0) {
+export function generateContent(input: string, mode: GenerateMode, lineCount: LineCount = 2, seed = 0) {
   const cleanInput = input.trim().slice(0, 12) || '小宝贝'
-  const templates = mode === 'song' ? SONG_TEMPLATES : RHYME_TEMPLATES
-  const index = Math.abs(hashCode(cleanInput) + seed + Date.now()) % templates.length
-  return templates[index](cleanInput)
+  const couplets = mode === 'song' ? SONG_COUPLETS : RHYME_COUPLETS
+  const start = Math.abs(hashCode(cleanInput) + seed + Date.now()) % couplets.length
+  const lines: string[] = []
+
+  while (lines.length < lineCount) {
+    const template = couplets[(start + lines.length / 2) % couplets.length]
+    lines.push(...template(cleanInput))
+  }
+
+  return lines.slice(0, lineCount).join('\n')
 }
 
-export function generateSongLyrics(input: string, seed = 0) {
-  return generateContent(input, 'song', seed)
+export function generateSongLyrics(input: string, lineCount: LineCount = 2, seed = 0) {
+  return generateContent(input, 'song', lineCount, seed)
 }
 
 export function getTopicVersions(state: AppState, topicId: string) {
@@ -197,7 +212,7 @@ export function formatTime(value: string) {
   return `${month}-${day} ${hour}:${minute}`
 }
 
-export function createTopicWithVersion(state: AppState, input: string, mode: GenerateMode) {
+export function createTopicWithVersion(state: AppState, input: string, mode: GenerateMode, lineCount: LineCount = 2) {
   const cost = modeCost(mode)
   if (state.user.remainCount < cost) {
     return { state, topicId: '', versionId: '', ok: false }
@@ -208,12 +223,13 @@ export function createTopicWithVersion(state: AppState, input: string, mode: Gen
     id: createId('topic'),
     input: input.trim(),
     mode,
+    lineCount,
     createdAt: now
   }
   const version: Version = {
     id: createId('version'),
     topicId: topic.id,
-    content: generateContent(input, mode),
+    content: generateContent(input, mode, lineCount),
     isFavorite: false,
     createdAt: now
   }
@@ -228,7 +244,7 @@ export function createTopicWithVersion(state: AppState, input: string, mode: Gen
             {
               id: createId('song'),
               topicId: topic.id,
-              lyrics: generateSongLyrics(input),
+              lyrics: generateSongLyrics(input, lineCount),
               audioUrl: '',
               createdAt: now
             },
@@ -250,7 +266,7 @@ export function createTopicWithVersion(state: AppState, input: string, mode: Gen
   return { state: next, topicId: topic.id, versionId: version.id, ok: true }
 }
 
-export function regenerateVersion(state: AppState, topicId: string) {
+export function regenerateVersion(state: AppState, topicId: string, nextLineCount?: LineCount) {
   const topic = state.topics.find((item) => item.id === topicId)
   if (!topic) {
     return { state, versionId: '', ok: false }
@@ -263,16 +279,18 @@ export function regenerateVersion(state: AppState, topicId: string) {
 
   const now = new Date().toISOString()
   const versionCount = getTopicVersions(state, topicId).length
+  const lineCount = nextLineCount || topic.lineCount || 2
   const version: Version = {
     id: createId('version'),
     topicId,
-    content: generateContent(topic.input, topic.mode, versionCount + 1),
+    content: generateContent(topic.input, topic.mode, lineCount, versionCount + 1),
     isFavorite: false,
     createdAt: now
   }
   const next: AppState = {
     ...state,
     user: { ...state.user, remainCount: state.user.remainCount - cost },
+    topics: state.topics.map((item) => (item.id === topicId ? { ...item, lineCount } : item)),
     versions: [version, ...state.versions],
     songs:
       topic.mode === 'song'
@@ -280,7 +298,7 @@ export function regenerateVersion(state: AppState, topicId: string) {
             {
               id: createId('song'),
               topicId,
-              lyrics: generateSongLyrics(topic.input, versionCount + 1),
+              lyrics: generateSongLyrics(topic.input, lineCount, versionCount + 1),
               audioUrl: '',
               createdAt: now
             },

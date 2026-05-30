@@ -50,7 +50,7 @@ button::after {
 }
 
 .safe-top {
-  height: 36rpx;
+  height: 112rpx;
 }
 
 .card {
@@ -98,7 +98,7 @@ button::after {
   align-items: center;
   justify-content: space-between;
   margin: 34rpx 0 18rpx;
-  font-size: 28rpx;
+  font-size: 31rpx;
   font-weight: 800;
 }
 
@@ -106,7 +106,7 @@ button::after {
   display: flex;
   align-items: center;
   gap: 8rpx;
-  font-size: 24rpx;
+  font-size: 27rpx;
   font-weight: 600;
   color: #9b7f64;
 }

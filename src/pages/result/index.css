@@ -29,14 +29,14 @@
 
 .topic-title {
   margin-right: 18rpx;
-  font-size: 44rpx;
+  font-size: 48rpx;
   font-weight: 900;
   color: #3b271d;
 }
 
 .edit-chip {
   padding: 6rpx 14rpx;
-  font-size: 22rpx;
+  font-size: 25rpx;
   font-weight: 700;
   color: #9c8064;
   background: rgba(255, 255, 255, 0.78);
@@ -51,7 +51,7 @@
 
 .topic-tag {
   padding: 10rpx 18rpx;
-  font-size: 22rpx;
+  font-size: 25rpx;
   font-weight: 800;
   color: #8d765d;
   background: rgba(255, 255, 255, 0.76);
@@ -61,6 +61,12 @@
 .topic-tag--active {
   color: #744600;
   background: linear-gradient(135deg, #ffd66e 0%, #ffb229 100%);
+}
+
+.topic-tag--selectable {
+  padding-right: 22rpx;
+  color: #6b513e;
+  border: 2rpx solid rgba(255, 199, 84, 0.45);
 }
 
 .result-card {
@@ -76,7 +82,7 @@
 .version-badge {
   display: block;
   margin-bottom: 78rpx;
-  font-size: 23rpx;
+  font-size: 26rpx;
   font-weight: 800;
   color: #d2b176;
 }
@@ -89,7 +95,7 @@
 .rhyme-line {
   display: block;
   margin-top: 20rpx;
-  font-size: 36rpx;
+  font-size: 39rpx;
   font-weight: 800;
   line-height: 1.6;
   color: #4b3024;
@@ -125,6 +131,10 @@
 .version-arrow__icon {
   width: 44rpx;
   height: 44rpx;
+}
+
+.version-arrow.is-disabled {
+  opacity: 0.28;
 }
 
 .version-arrow--right .version-arrow__icon {
@@ -177,13 +187,13 @@
 }
 
 .song-title {
-  font-size: 30rpx;
+  font-size: 33rpx;
   font-weight: 900;
 }
 
 .song-desc {
   margin-top: 8rpx;
-  font-size: 23rpx;
+  font-size: 26rpx;
   color: #9b8370;
 }
 
@@ -197,7 +207,7 @@
 .lyrics-line {
   display: block;
   margin: 10rpx 0;
-  font-size: 26rpx;
+  font-size: 29rpx;
   line-height: 1.45;
   color: #6a4d3a;
 }
@@ -213,7 +223,7 @@
   flex-direction: column;
   align-items: center;
   gap: 10rpx;
-  font-size: 24rpx;
+  font-size: 27rpx;
   font-weight: 800;
   color: #7b6351;
 }
@@ -243,7 +253,7 @@
 
 .tip-title {
   display: block;
-  font-size: 26rpx;
+  font-size: 29rpx;
   font-weight: 900;
   color: #8a5a00;
 }
@@ -251,7 +261,7 @@
 .tip-text {
   display: block;
   margin-top: 6rpx;
-  font-size: 23rpx;
+  font-size: 26rpx;
   color: #9a806a;
 }
 

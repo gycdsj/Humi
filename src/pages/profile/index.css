@@ -25,14 +25,14 @@
 }
 
 .profile-name {
-  font-size: 34rpx;
+  font-size: 37rpx;
   font-weight: 900;
   color: #3d2a20;
 }
 
 .profile-slogan {
   margin-top: 10rpx;
-  font-size: 24rpx;
+  font-size: 27rpx;
   color: #8b7563;
 }
 
@@ -47,7 +47,7 @@
 
 .package-title {
   display: block;
-  font-size: 30rpx;
+  font-size: 33rpx;
   font-weight: 900;
   color: #86600d;
 }
@@ -55,7 +55,7 @@
 .package-desc {
   display: block;
   margin-top: 8rpx;
-  font-size: 23rpx;
+  font-size: 26rpx;
   color: #b48b41;
 }
 
@@ -103,14 +103,14 @@
 }
 
 .menu-title {
-  font-size: 27rpx;
+  font-size: 30rpx;
   font-weight: 800;
   color: #52392d;
 }
 
 .menu-extra {
   margin-right: 10rpx;
-  font-size: 22rpx;
+  font-size: 25rpx;
   color: #b49c83;
 }
 

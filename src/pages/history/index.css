@@ -17,7 +17,7 @@
   min-width: 184rpx;
   height: 66rpx;
   padding: 0 28rpx;
-  font-size: 26rpx;
+  font-size: 29rpx;
   font-weight: 900;
   color: #7f654e;
   background: #fff;
@@ -49,7 +49,7 @@
 .search-input {
   flex: 1;
   height: 70rpx;
-  font-size: 26rpx;
+  font-size: 29rpx;
   color: #50372a;
 }
 
@@ -88,7 +88,7 @@
 .history-title {
   display: block;
   overflow: hidden;
-  font-size: 28rpx;
+  font-size: 31rpx;
   font-weight: 900;
   color: #4d3528;
   text-overflow: ellipsis;
@@ -99,7 +99,7 @@
   display: block;
   margin-top: 8rpx;
   overflow: hidden;
-  font-size: 22rpx;
+  font-size: 25rpx;
   color: #a48c75;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -113,7 +113,7 @@
 }
 
 .history-time {
-  font-size: 20rpx;
+  font-size: 23rpx;
   color: #b49d85;
 }
 
@@ -125,7 +125,7 @@
 
 .empty-history {
   padding: 80rpx 20rpx;
-  font-size: 26rpx;
+  font-size: 29rpx;
   color: #a18874;
   text-align: center;
 }
